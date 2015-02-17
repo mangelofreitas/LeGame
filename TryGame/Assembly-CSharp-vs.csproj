@@ -51,6 +51,7 @@
      <Compile Include="Assets\scripts\Rotation.cs" />
      <Compile Include="Assets\scripts\movement.cs" />
      <Compile Include="Assets\scripts\rotate.cs" />
+     <Compile Include="Assets\swipe.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>A:/Unity/Data/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
  </Reference>

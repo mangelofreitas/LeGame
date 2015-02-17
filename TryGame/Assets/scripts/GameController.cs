@@ -14,8 +14,7 @@ public class GameController : MonoBehaviour {
 	private float timeLeft = 20.0f;
 	private float timeoccurred = 0.0f;
 	public float xspeed;
-	private float tmin = 1.0f;
-	private float tmax = 3.0f;
+	private float tempo = 2.0f;
 
 	void Start () {
 		StartCoroutine(SpawnWaves ());
@@ -39,12 +38,16 @@ public class GameController : MonoBehaviour {
 			child.renderer.material.SetColor("_Color",new Color( Random.value, Random.value, Random.value, 1.0f ));
 
 			movimento = child.GetComponent<movement>();
-			Debug.Log ("cenas ->>>>>" +(int)timeoccurred%10);
-			if(((int)timeoccurred%10 == 0)&&(int)timeoccurred!=0 ){
+			Debug.Log ("cenas -> " +Mathf.Exp(1/timeoccurred));
+			if(((int)timeoccurred%10 == 0)&&(int)timeoccurred!=0 && timeoccurred<80){
 				Debug.Log ("xpeed ->>>>" +xspeed);
-				xspeed += xspeed * 0.5f;
-				tmin-=0.05f;
-				tmax-=0.05f;
+				xspeed += xspeed * 0.25f;
+				tempo -= tempo * 0.15f;
+			}
+			else if((int)timeoccurred%10 == 0 && timeoccurred>=80)
+			{
+				xspeed += xspeed * 0.04f;
+				tempo -= tempo * 0.05f;
 			}
 			movimento.speed = movimento.speed * xspeed;
 			GameObject child2 = Instantiate(block, cubosLateralEsq[Random.Range(0,3)], spawnRotation) as GameObject;
@@ -57,7 +60,7 @@ public class GameController : MonoBehaviour {
 			child3.renderer.material.SetColor("_Color",new Color( Random.value, Random.value, Random.value, 1.0f ));
 			movimento = child3.GetComponent<movement>();
 			movimento.speed = movimento.speed * xspeed;
-			yield return new WaitForSeconds(Random.Range(tmin,tmax));
+			yield return new WaitForSeconds(tempo);
 		}
 	}
 }
