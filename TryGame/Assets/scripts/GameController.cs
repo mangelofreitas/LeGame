@@ -12,7 +12,6 @@ public class GameController : MonoBehaviour {
 	public GameObject[] cubosBaixo;
 	public GameObject parent;
 	private static Color[] cores = {Color.red,Color.blue,Color.green,Color.white};
-	private Rotation aux;
 	private movement movimento;
 	private float timeLeft = 20.0f;
 	private float timeoccurred = 0.0f;
@@ -20,7 +19,6 @@ public class GameController : MonoBehaviour {
 	private float tempo = 2.0f;
 
 	void Start () {
-		aux = parent.GetComponent<Rotation>();
 		StartCoroutine(SpawnWaves ());
 	}
 

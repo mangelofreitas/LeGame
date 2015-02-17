@@ -13,7 +13,9 @@ public class Colider : MonoBehaviour {
 		{
 			Destroy (gameObject);
 		}
+		else{
+			this.renderer.material.SetColor("_Color",other.renderer.material.color);
+		}
 		Destroy (other.gameObject);
-		Debug.Log (other.gameObject);
 	}
 }

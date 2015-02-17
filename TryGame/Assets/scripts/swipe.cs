@@ -11,15 +11,22 @@ public class swipe : MonoBehaviour {
 	private float yStart = 0.0f;
 	private float yEnd = 0.0f;
 	private bool sendCall = true;
+	public GameObject[] positions;
+	private int pos = 1;
+	private Rotation rotateCube;
+
+	void Start()
+	{
+		rotateCube.GetComponent<Rotation>();
+		destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
+		rigidbody.position = destination;
+	}
 
 	void FixedUpdate () {
 		if (moving) {
-			if (rigidbody.position == destination) {
-				moving = false;	
-			}
-			else{
-				rigidbody.position = destination;
-			}
+			rigidbody.position = destination;
+			moving=false;
+			Debug.Log("False");
 		}
 		else{
 			foreach (Touch touch in Input.touches) {
@@ -28,20 +35,36 @@ public class swipe : MonoBehaviour {
 					xStart = touch.position.x;
 					yStart = touch.position.y;
 				}
-				if (touch.phase == TouchPhase.Moved) {
+				if (touch.phase == TouchPhase.Moved && sendCall==true){
 					xEnd = touch.position.x;
 					yEnd = touch.position.y;
 					
-					if ((xStart < xEnd) && (rigidbody.position.z<6.3f)) {
+					if ((xStart < xEnd)) {
 						//print ("Right Swipe");
 						sendCall = false;
-						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,rigidbody.position.z+6.3f);
+						if(pos==11)
+						{
+							pos=0;
+						}
+						else
+						{
+							pos++;
+						}
+						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
 						moving = true;
 					}
-					if ((xStart > xEnd) && (rigidbody.position.z>-6.3f) ) {
+					if ((xStart > xEnd)) {
 						//print ("Left Swipe");
 						sendCall = false;
-						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,rigidbody.position.z-6.3f);
+						if(pos==0)
+						{
+							pos=11;
+						}
+						else
+						{
+							pos--;
+						}
+						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
 						moving = true;
 					}
 					
@@ -55,13 +78,29 @@ public class swipe : MonoBehaviour {
 				}
 
 			}
-			if (Input.GetKeyDown("d") && rigidbody.position.z<6.3f) {
-				destination = new Vector3(rigidbody.position.x,rigidbody.position.y,rigidbody.position.z+6.3f);
+			if (Input.GetKeyDown("d")) {
+				if(pos==11)
+				{
+					pos=0;
+				}
+				else
+				{
+					pos++;
+				}
+				destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
 				moving = true;
 				
 			}
-			else if (Input.GetKeyDown("a") && rigidbody.position.z>-6.3f){
-				destination = new Vector3(rigidbody.position.x,rigidbody.position.y,rigidbody.position.z-6.3f);
+			else if (Input.GetKeyDown("a")){
+				if(pos==0)
+				{
+					pos=11;
+				}
+				else
+				{
+					pos--;
+				}
+				destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
 				moving = true;
 				
 			}
