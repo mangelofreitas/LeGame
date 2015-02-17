@@ -25,7 +25,7 @@ public class Rotation : MonoBehaviour {
 			else{
 				transform.rotation = Quaternion.RotateTowards(transform.rotation,destination,rotationSpeed*Time.deltaTime);
 			}
-		}/*
+		}
 		else{ 
 			foreach (Touch touch in Input.touches) {
 				
@@ -63,20 +63,20 @@ public class Rotation : MonoBehaviour {
 
 				}
 				
-			} */
-			if (Input.GetKeyDown("d")) {
+			}
+			if (Input.GetKeyDown("a")) {
 				currentposition++;
 				if(currentposition==4) currentposition=0;
 				destination = Quaternion.Euler(posicoes[currentposition]);
 				moving = true;
 			}
-			else if (Input.GetKeyDown("a")){
+			else if (Input.GetKeyDown("d")){
 				currentposition--;
 				if(currentposition==-1) currentposition=3;
 				destination = Quaternion.Euler(posicoes[currentposition]);
 				moving = true;
 			}
 		}
-	//}
+	}
 	
 }	
