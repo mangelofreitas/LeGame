@@ -3,10 +3,7 @@ using System.Collections;
 
 public class rotate : MonoBehaviour {
 
-	public float tumble;
-	
-	void Start()
-	{
-		rigidbody.angularVelocity = Random.insideUnitSphere*tumble;
+	void Update () {
+		rigidbody.transform.Rotate (new Vector3 (10, 30, 45) * Time.deltaTime);
 	}
 }

@@ -14,10 +14,12 @@ public class swipe : MonoBehaviour {
 	public GameObject[] positions;
 	private int pos = 1;
 	private Rotation rotateCube;
+	private GameObject aux;
 
 	void Start()
 	{
-		rotateCube.GetComponent<Rotation>();
+		aux =  GameObject.FindWithTag("Cube");
+		rotateCube = aux.GetComponent<Rotation> ();
 		destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
 		rigidbody.position = destination;
 	}
@@ -26,7 +28,6 @@ public class swipe : MonoBehaviour {
 		if (moving) {
 			rigidbody.position = destination;
 			moving=false;
-			Debug.Log("False");
 		}
 		else{
 			foreach (Touch touch in Input.touches) {
@@ -50,6 +51,11 @@ public class swipe : MonoBehaviour {
 						{
 							pos++;
 						}
+						if(pos%3==0)
+						{
+							rotateCube.moveLeft=true;
+							Debug.Log("Left");
+						}
 						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
 						moving = true;
 					}
@@ -63,6 +69,11 @@ public class swipe : MonoBehaviour {
 						else
 						{
 							pos--;
+						}
+						if(pos%3==0)
+						{
+							rotateCube.moveRight=true;
+							Debug.Log("Right");
 						}
 						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
 						moving = true;

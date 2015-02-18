@@ -15,6 +15,8 @@ public class Rotation : MonoBehaviour {
 	private float yStart = 0.0f;
 	private float yEnd = 0.0f;
 	private bool sendCall = true;
+	public bool moveLeft = false;
+	public bool moveRight = false;
 
 
 	void Update(){
@@ -26,55 +28,20 @@ public class Rotation : MonoBehaviour {
 				transform.rotation = Quaternion.RotateTowards(transform.rotation,destination,rotationSpeed*Time.deltaTime);
 			}
 		}
-		else{ 
-			foreach (Touch touch in Input.touches) {
-				
-				if (touch.phase == TouchPhase.Began) {
-					xStart = touch.position.x;
-					yStart = touch.position.y;
-				}
-				if (touch.phase == TouchPhase.Moved) {
-					xEnd = touch.position.x;
-					yEnd = touch.position.y;
-					
-					if ((xStart < xEnd) ) {
-						//print ("Right Swipe");
-						sendCall = false;
-						currentposition++;
-						if(currentposition==4) currentposition=0;
-						destination = Quaternion.Euler(posicoes[currentposition]);
-						moving = true;
-					}
-					if ((xStart > xEnd) ) {
-						//print ("Left Swipe");
-						sendCall = false;
-						currentposition--;
-						if(currentposition==-1) currentposition=3;
-						destination = Quaternion.Euler(posicoes[currentposition]);
-						moving = true;
-					}
-					
-				}
-				
-				if (touch.phase == TouchPhase.Ended) {
-					xStart = 0.0f;    // resetting start and end x position.
-					xEnd = 0.0f;
-					sendCall = true;      //Reset to send call again after touch has been completed.
-
-				}
-				
-			}
-			if (Input.GetKeyDown("a")) {
+		else{
+			if (moveLeft) {
 				currentposition++;
 				if(currentposition==4) currentposition=0;
 				destination = Quaternion.Euler(posicoes[currentposition]);
 				moving = true;
+				moveLeft = false;
 			}
-			else if (Input.GetKeyDown("d")){
+			else if (moveRight){
 				currentposition--;
 				if(currentposition==-1) currentposition=3;
 				destination = Quaternion.Euler(posicoes[currentposition]);
 				moving = true;
+				moveRight = false;
 			}
 		}
 	}
