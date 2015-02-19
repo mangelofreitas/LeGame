@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
 	private float timeoccurred = 0.0f;
 	public float xspeed;
 	private float tempo = 2.0f;
+	private bool restart = false;
 
 	void Start () {
 		StartCoroutine(SpawnWaves ());
@@ -26,6 +27,15 @@ public class GameController : MonoBehaviour {
 	{
 		timeLeft -= Time.deltaTime;
 		timeoccurred += Time.deltaTime;
+		if (restart) 
+		{
+			foreach (Touch touch in Input.touches) {
+				if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
+			//if(Input.GetKey(KeyCode.R)){
+				Application.LoadLevel(Application.loadedLevel);
+				
+			}
+		}
 	}
 
 	IEnumerator SpawnWaves()
@@ -64,7 +74,19 @@ public class GameController : MonoBehaviour {
 			movimento = child4.GetComponent<movement>();
 			movimento.speed = movimento.speed * xspeed;
 			yield return new WaitForSeconds(tempo);
+			if(restart)
+			{
+				break;
+			}
 
 		}
 	}
+
+	public void gameOver()
+	{
+		print ("Over");
+		restart = true;
+	}
+
+
 }

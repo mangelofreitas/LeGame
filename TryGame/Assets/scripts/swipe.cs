@@ -5,11 +5,13 @@ public class swipe : MonoBehaviour {
 
 	private bool moving = false;
 	private Vector3 destination;
-
+	public float speed = 10f;
 	private float xStart = 0.0f;
 	private float xEnd = 0.0f;
 	private float yStart = 0.0f;
 	private float yEnd = 0.0f;
+	public float rot = 50f;
+	private float tilt;
 	private bool sendCall = true;
 	public GameObject[] positions;
 	private int pos = 1;
@@ -20,14 +22,21 @@ public class swipe : MonoBehaviour {
 	{
 		aux =  GameObject.FindWithTag("Cube");
 		rotateCube = aux.GetComponent<Rotation> ();
-		destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
-		rigidbody.position = destination;
+		renderer.material.SetColor ("_Color", Color.black);
+		//destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
+		//rigidbody.position = destination;
 	}
 
-	void FixedUpdate () {
+	void Update () {
 		if (moving) {
-			rigidbody.position = destination;
-			moving=false;
+			if (transform.position == destination) {
+				transform.rotation = Quaternion.Euler(270f,210f,0f);
+				moving = false;	
+			}
+			else{
+				transform.rotation = Quaternion.Euler (270f,210f,speed*-tilt);
+				transform.position = Vector3.MoveTowards(transform.position,destination,speed*Time.deltaTime);
+			}
 		}
 		else{
 			foreach (Touch touch in Input.touches) {
@@ -36,7 +45,7 @@ public class swipe : MonoBehaviour {
 					xStart = touch.position.x;
 					yStart = touch.position.y;
 				}
-				if (touch.phase == TouchPhase.Moved && sendCall==true){
+				if (touch.phase == TouchPhase.Moved){
 					xEnd = touch.position.x;
 					yEnd = touch.position.y;
 					
@@ -51,12 +60,13 @@ public class swipe : MonoBehaviour {
 						{
 							pos++;
 						}
-						if(pos%3==0)
+						/*if(pos%3==0)
 						{
 							rotateCube.moveLeft=true;
 							Debug.Log("Left");
-						}
-						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
+						}*/
+						destination = new Vector3(transform.position.x,transform.position.y,positions[pos].transform.position.z);
+						tilt = -rot;
 						moving = true;
 					}
 					if ((xStart > xEnd)) {
@@ -70,12 +80,13 @@ public class swipe : MonoBehaviour {
 						{
 							pos--;
 						}
-						if(pos%3==0)
+						/*if(pos%3==0)
 						{
 							rotateCube.moveRight=true;
 							Debug.Log("Right");
-						}
-						destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
+						}*/
+						destination = new Vector3(transform.position.x,transform.position.y,positions[pos].transform.position.z);
+						tilt = rot;
 						moving = true;
 					}
 					
@@ -98,7 +109,8 @@ public class swipe : MonoBehaviour {
 				{
 					pos++;
 				}
-				destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
+				destination = new Vector3(transform.position.x,transform.position.y,positions[pos].transform.position.z);
+				tilt = -rot;
 				moving = true;
 				
 			}
@@ -111,7 +123,8 @@ public class swipe : MonoBehaviour {
 				{
 					pos--;
 				}
-				destination = new Vector3(rigidbody.position.x,rigidbody.position.y,positions[pos].transform.position.z);
+				destination = new Vector3(transform.position.x,transform.position.y,positions[pos].transform.position.z);
+				tilt = rot;
 				moving = true;
 				
 			}
