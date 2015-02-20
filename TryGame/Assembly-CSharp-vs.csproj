@@ -50,6 +50,7 @@
      <Compile Include="Assets\scripts\DestroyByBoundery.cs" />
      <Compile Include="Assets\scripts\GameController.cs" />
      <Compile Include="Assets\scripts\Menu.cs" />
+     <Compile Include="Assets\scripts\PauseButton.cs" />
      <Compile Include="Assets\scripts\Rotation.cs" />
      <Compile Include="Assets\scripts\movement.cs" />
      <Compile Include="Assets\scripts\rotate.cs" />
