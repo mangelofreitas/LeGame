@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -19,7 +20,12 @@ public class GameController : MonoBehaviour {
 	private float tempo = 2.0f;
 	private bool restart = false;
 
+	public Text scoreText;
+	private int score;
+
 	void Start () {
+		score = 0;
+		UpdateScore ();
 		StartCoroutine(SpawnWaves ());
 	}
 
@@ -27,13 +33,17 @@ public class GameController : MonoBehaviour {
 	{
 		timeLeft -= Time.deltaTime;
 		timeoccurred += Time.deltaTime;
+		if(Input.GetKey(KeyCode.R))
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		} 
 		if (restart) 
 		{
 			foreach (Touch touch in Input.touches) {
-				if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled)
-			//if(Input.GetKey(KeyCode.R)){
-				Application.LoadLevel(Application.loadedLevel);
-				
+				if ((touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled))
+				{
+					Application.LoadLevel(Application.loadedLevel);
+				}
 			}
 		}
 	}
@@ -80,6 +90,16 @@ public class GameController : MonoBehaviour {
 			}
 
 		}
+	}
+	public void AddScore (int newScoreValue)
+	{
+		score += newScoreValue;
+		UpdateScore ();
+	}
+	
+	void UpdateScore ()
+	{
+		scoreText.text = "Score: " + score;
 	}
 
 	public void gameOver()

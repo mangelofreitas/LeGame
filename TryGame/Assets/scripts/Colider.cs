@@ -4,6 +4,7 @@ using System.Collections;
 public class Colider : MonoBehaviour {
 
 	private GameController gameController;
+	public int scoreValue;
 
 	void Start()
 	{
@@ -28,6 +29,7 @@ public class Colider : MonoBehaviour {
 		else
 		{
 			this.renderer.material.SetColor("_Color",other.renderer.material.color);
+			gameController.AddScore (scoreValue);
 		}
 		Destroy (other.gameObject);
 	}
