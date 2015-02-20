@@ -4,6 +4,7 @@ using System.Collections;
 public class swipe : MonoBehaviour {
 
 	private bool moving = false;
+	private bool jumping = false;
 	private Vector3 destination;
 	public float speed = 10f;
 	private float xStart = 0.0f;
@@ -36,6 +37,16 @@ public class swipe : MonoBehaviour {
 			else{
 				transform.rotation = Quaternion.Euler (270f,210f,speed*-tilt);
 				transform.position = Vector3.MoveTowards(transform.position,destination,speed*Time.deltaTime);
+			}
+		}
+		else if (jumping) {
+			if(transform.position == destination)
+			{
+				destination = new Vector3(positions[pos].transform.position.x,positions[pos].transform.position.y,positions[pos].transform.position.z); 
+				moving = true;
+			}
+			else{
+				transform.position = Vector3.MoveTowards(transform.position,destination,2*speed*Time.deltaTime);
 			}
 		}
 		else{
@@ -101,32 +112,42 @@ public class swipe : MonoBehaviour {
 
 			}
 			if (Input.GetKeyDown("d")) {
-				if(pos==11)
+				if(pos==2)
 				{
 					pos=0;
+					destination = new Vector3(positions[3].transform.position.x,positions[3].transform.position.y,positions[3].transform.position.z);
+					while(transform.position != destination)
+					{
+						transform.position = Vector3.MoveTowards(transform.position,destination,speed*Time.deltaTime);
+					}
+					rotateCube.moveRight=true;
+					jumping=true;
 				}
 				else
 				{
 					pos++;
+					moving = true;
 				}
-				destination = new Vector3(transform.position.x,transform.position.y,positions[pos].transform.position.z);
+				destination = new Vector3(transform.position.x,positions[pos].transform.position.y,positions[pos].transform.position.z);
 				tilt = -rot;
-				moving = true;
-				
+
 			}
 			else if (Input.GetKeyDown("a")){
 				if(pos==0)
 				{
-					pos=11;
+					pos=2;
+					destination = new Vector3(positions[3].transform.position.x,positions[3].transform.position.y,positions[3].transform.position.z);
+					rotateCube.moveLeft=true;
+					jumping = true;
 				}
 				else
 				{
 					pos--;
+					moving = true;
 				}
-				destination = new Vector3(transform.position.x,transform.position.y,positions[pos].transform.position.z);
+				destination = new Vector3(transform.position.x,positions[pos].transform.position.y,positions[pos].transform.position.z);
 				tilt = rot;
-				moving = true;
-				
+
 			}
 	}
 }
