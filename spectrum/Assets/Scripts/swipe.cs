@@ -27,12 +27,10 @@ public class swipe : MonoBehaviour {
 	{
 		aux =  GameObject.FindWithTag("Cube");
 		rotateCube = aux.GetComponent<Rotation> ();
-		//renderer.material.SetColor ("_Color", Color.black);
 	}
 
 	void Update () {
 		if (moving) {
-			//print(xdestination);
 			if(transform.position == xdestination){
 				moving = false;
 
@@ -51,11 +49,71 @@ public class swipe : MonoBehaviour {
 			}
 		}
 		else{
+			foreach (Touch touch in Input.touches) {
+				
+				if (touch.phase == TouchPhase.Began) {
+					xStart = touch.position.x;
+					yStart = touch.position.y;
+				}
+				if (touch.phase == TouchPhase.Moved){
+					xEnd = touch.position.x;
+					yEnd = touch.position.y;
+					
+					if ((xStart < xEnd)) {
+						//print ("Right Swipe");
+						if(pos==2)
+						{
+							pos=0;
+							ydestination = new Vector3(-7f,20f,-100f);
+							xdestination = positions[pos];
+							rotateCube.moveLeft=true;
+							jumping=true;
+						}
+						else
+						{
+							pos++;
+							xdestination = positions[pos];
+							print (xdestination);
+							moving = true;
+							tilt = -rot;
+						}
+					}
+					if ((xStart > xEnd)) {
+						//print ("Left Swipe");
+						if(pos==0)
+						{
+							pos=2;
+							ydestination = new Vector3(7f,20f,-100f);
+							xdestination = positions[pos];
+							rotateCube.moveRight=true;
+							jumping = true;
+						}
+						else
+						{
+							pos--;
+							xdestination = positions[pos];
+							print (xdestination);
+							moving = true;
+							tilt = rot;
+						}
+					}
+					
+				}
+				
+				if (touch.phase == TouchPhase.Ended) {
+					xStart = 0.0f;    // resetting start and end x position.
+					xEnd = 0.0f;
+					sendCall = true;      //Reset to send call again after touch has been completed.
+					
+				}
+				
+			}
+
 			if (Input.GetKeyDown("d")) {
 				if(pos==2)
 				{
 					pos=0;
-					ydestination = new Vector3(-7f,20f,-100f); //MUDAR
+					ydestination = new Vector3(-7f,20f,-100f);
 					xdestination = positions[pos];
 					rotateCube.moveLeft=true;
 					jumping=true;
@@ -73,9 +131,8 @@ public class swipe : MonoBehaviour {
 				if(pos==0)
 				{
 					pos=2;
-					ydestination = new Vector3(7f,20f,-100f); //MUDAR
+					ydestination = new Vector3(7f,20f,-100f);
 					xdestination = positions[pos];
-
 					rotateCube.moveRight=true;
 					jumping = true;
 				}
