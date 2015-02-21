@@ -1,10 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ColorManagement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PauseButton.cs">
     <Files>
-      <File FileName="Assets\Scripts\ColorManagement.cs" Line="10" Column="2" />
-      <File FileName="Assets\Scripts\Colider.cs" Line="117" Column="15" />
-      <File FileName="Assets\Scripts\PauseButton.cs" Line="62" Column="1" />
+      <File FileName="Assets\Scripts\PauseButton.cs" Line="36" Column="52" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="38" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
