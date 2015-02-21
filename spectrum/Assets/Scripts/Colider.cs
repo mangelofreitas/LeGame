@@ -5,7 +5,7 @@ public class Colider : MonoBehaviour {
 	private int scoreValue = 10;
 	public int countValue;
 	public GameController gameController;
-	private ColorManagement colorManagement;
+	public ColorManagement colorManagement;
 	private bool lerping = false;
 	private Color finalcolor;
 	private Color inicialcolor;
@@ -14,15 +14,15 @@ public class Colider : MonoBehaviour {
 	private int contadorGreen=0;
 	private int contadorBlue=0;
 	private Color currentcolor;
-
-
+	
+	
 	void Start(){
 		this.renderer.material.color = Color.white;
 		finalcolor = this.renderer.material.color;
 		colorManagement = gameController.GetComponent<ColorManagement>();
 		currentcolor = finalcolor; 
 	}
-
+	
 	void OnTriggerEnter(Collider other){
 		if(other.tag=="Boundery"){
 			return;
@@ -36,13 +36,25 @@ public class Colider : MonoBehaviour {
 			test = 1;
 			lerping = true;
 			//Destroy(gameObject);
-
+			
 		}
 		else{
 			if(currentcolor != other.renderer.material.color){
-				if(currentcolor == Color.red && contadorRed != 3) resetCounter(Color.red);
-				if(currentcolor == Color.blue && contadorBlue != 3) resetCounter(Color.blue);
-				if(currentcolor == Color.green && contadorGreen != 3) resetCounter(Color.green);
+				if(currentcolor == Color.red && contadorRed != 3){
+					resetCounter(Color.red);
+					resetCounter(Color.blue);
+					resetCounter(Color.green);
+				}
+				else if(currentcolor == Color.blue && contadorBlue != 3){
+					resetCounter(Color.red);
+					resetCounter(Color.blue);
+					resetCounter(Color.green);				
+				}
+				else if(currentcolor == Color.green && contadorGreen != 3){
+					resetCounter(Color.red);
+					resetCounter(Color.blue);
+					resetCounter(Color.green);				
+				}
 				currentcolor = other.renderer.material.color;			
 			}
 			if(other.renderer.material.color == Color.red){
@@ -83,12 +95,16 @@ public class Colider : MonoBehaviour {
 		gameController.removeCube (other.gameObject);
 		Destroy(other.gameObject);
 	}
-
+	
 	void Update(){
-		print (contadorGreen);
+		if(contadorBlue == 3 && contadorRed == 3 && contadorGreen == 3){
+			resetCounter(Color.red);
+			resetCounter(Color.blue);
+			resetCounter(Color.green);
+			print("GANHASTE");
+			gameController.gameOver();
+		}
 		if (lerping) {
-			//print ("cor inicial - " + inicialcolor);
-			print ("cor final - " + finalcolor);
 			this.renderer.material.SetColor("_Color",Color.Lerp(inicialcolor,finalcolor,test/50f));
 			if(test == 50){
 				test=1;
@@ -97,7 +113,7 @@ public class Colider : MonoBehaviour {
 			test++;
 		}
 	}
-
+	
 	void addCounter(Color cor){
 		if (cor == Color.red) {
 			if(contadorRed<3)
@@ -121,7 +137,7 @@ public class Colider : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	void resetCounter(Color cor){
 		if (cor == Color.red) {
 			contadorRed = 0;

@@ -7,12 +7,12 @@ public class ColorManagement : MonoBehaviour {
 	
 	public Text scoreText;
 	private int score;
-
+	
 	public Text countRed;
 	public Text countGreen;
 	public Text countBlue;
-
-
+	
+	
 	void Start () {
 		score = 0;
 		countRed.text = "Red: ";
@@ -24,21 +24,17 @@ public class ColorManagement : MonoBehaviour {
 		UpdateScore ();
 	}
 	
-	void Update () {
-	
-	}
-
 	public void AddScore (int newScoreValue)
 	{
 		score += newScoreValue;
 		UpdateScore ();
 	}
-
+	
 	void UpdateScore ()
 	{
 		scoreText.text = "Score: " + score;
 	}
-
+	
 	public void addContador (Color cor,int value)
 	{
 		if (cor == Color.red) {

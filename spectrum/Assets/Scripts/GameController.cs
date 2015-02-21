@@ -35,8 +35,6 @@ public class GameController : MonoBehaviour {
 			timeLeft -= Time.deltaTime;
 			timeoccurred += Time.deltaTime;
 		}
-		timeLeft -= Time.deltaTime;
-		timeoccurred += Time.deltaTime;
 		if(Input.GetKey(KeyCode.R))
 		{
 			Application.LoadLevel(Application.loadedLevel);
@@ -96,7 +94,7 @@ public class GameController : MonoBehaviour {
 
 	void UpdateTimeLeft(){
 		timeLeft = Mathf.Round (timeLeft * 100f) / 100f;
-		timeLeftText.text = "Timer: " + timeLeft;
+		timeLeftText.text = "Timer: " +(int) timeLeft;
 	}
 
 	public void removeCube(GameObject cubo){
@@ -106,6 +104,7 @@ public class GameController : MonoBehaviour {
 	public void gameOver()
 	{
 		restart = true;
+		Time.timeScale = 0f;
 	}
 
 
