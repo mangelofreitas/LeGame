@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
 	public GameObject[] cubosLateralDir;
 	public GameObject[] cubosBaixo;
 	public GameObject parent;
+	private List<GameObject> cubitos = new List<GameObject>();
 	private static Color[] cores = {Color.red,Color.blue,Color.green,Color.white};
 	private movement movimento;
 	private float timeLeft = 20.0f;
@@ -23,7 +24,7 @@ public class GameController : MonoBehaviour {
 	public Text scoreText;
 	private int score;
 
-	private int contadorRed;
+	public int contadorRed;
 	private int contadorGreen;
 	private int contadorBlue;
 	public Text countRed;
@@ -35,7 +36,13 @@ public class GameController : MonoBehaviour {
 		contadorRed = 0;
 		contadorBlue = 0;
 		contadorGreen = 0;
-		UpdateCounters ();
+		countRed.text = "Red: ";
+		countRed.color = Color.red;
+		countGreen.text = "Green: ";
+		countGreen.color = Color.green;
+		countBlue.text = "Blue: ";
+		countBlue.color = Color.blue;	
+//		UpdateCounters ();
 		UpdateScore ();
 		StartCoroutine(SpawnWaves ());
 	}
@@ -64,11 +71,17 @@ public class GameController : MonoBehaviour {
 		yield return new WaitForSeconds (startWait);
 		while(true)
 		{
+			if(cubitos.Count>0){
+				foreach(GameObject cubo in cubitos){
+					movimento.speed = movimento.speed*xspeed;
+				}
+			}
 			Quaternion spawnRotation = Quaternion.identity;
 			GameObject child = Instantiate(block, cubosPrincipal[Random.Range(0,3)].transform.position, spawnRotation) as GameObject;
 			child.transform.SetParent(parent.transform);
 			child.renderer.material.SetColor("_Color",cores[Random.Range(0,4)]);
 			movimento = child.GetComponent<movement>();
+			cubitos.Add(child);
 			if(((int)timeoccurred%10 == 0)&&(int)timeoccurred!=0 && timeoccurred<80){
 				xspeed += xspeed * 0.25f;
 				tempo -= tempo * 0.15f;
@@ -82,16 +95,19 @@ public class GameController : MonoBehaviour {
 			GameObject child2 = Instantiate(block, cubosLateralEsq[Random.Range(0,3)].transform.position, spawnRotation) as GameObject;
 			child2.transform.SetParent(parent.transform);
 			child2.renderer.material.SetColor("_Color",cores[Random.Range(0,4)]);
+			cubitos.Add(child2);
 			movimento = child2.GetComponent<movement>();
 			movimento.speed = movimento.speed * xspeed;
 			GameObject child3 = Instantiate(block, cubosLateralDir[Random.Range(0,3)].transform.position, spawnRotation) as GameObject;
 			child3.transform.SetParent(parent.transform);
 			child3.renderer.material.SetColor("_Color",cores[Random.Range(0,4)]);
+			cubitos.Add(child3);
 			movimento = child3.GetComponent<movement>();
 			movimento.speed = movimento.speed * xspeed;
 			GameObject child4 = Instantiate(block, cubosBaixo[Random.Range(0,3)].transform.position, spawnRotation) as GameObject;
 			child4.transform.SetParent(parent.transform);
 			child4.renderer.material.SetColor("_Color",cores[Random.Range(0,4)]);
+			cubitos.Add(child4);
 			movimento = child4.GetComponent<movement>();
 			movimento.speed = movimento.speed * xspeed;
 			yield return new WaitForSeconds(tempo);
@@ -111,16 +127,22 @@ public class GameController : MonoBehaviour {
 		if( cor == Color.red)
 		{
 			contadorRed++;
+			if(contadorRed<4)countRed.text = ((string)countRed.text)+="|";
 		}
 		else if( cor == Color.blue)
 		{
 			contadorBlue++;
+			if(contadorBlue<4)countBlue.text = ((string)countBlue.text)+="|";
 		}
 		else if(cor == Color.green)
 		{
 			contadorGreen++;
+			if(contadorGreen<4)countGreen.text = ((string)countGreen.text)+="|";
 		}
-		UpdateCounters();
+		//UpdateCounters();
+	}
+	public void removeCube(GameObject cubo){
+		cubitos.Remove (cubo);
 	}
 	
 	void UpdateScore ()
@@ -128,11 +150,14 @@ public class GameController : MonoBehaviour {
 		scoreText.text = "Score: " + score;
 	}
 
-	void UpdateCounters(){
-		countRed.text = "R: " + contadorRed;
-		countGreen.text = "G: " + contadorGreen;
-		countBlue.text = "B: " + contadorBlue;
-	}
+	/*void UpdateCounters(){
+		if(contadorRed<3)
+			countRed.text ("|");
+		if(contadorGreen<3)
+			countGreen.text.Concat();
+		if(contadorBlue<3)
+			countBlue.text.Concat("|");
+	}*/	
 
 	public void gameOver()
 	{

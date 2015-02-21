@@ -4,9 +4,8 @@ using System.Collections;
 public class swipe : MonoBehaviour {
 
 	private bool moving = false;
-	private bool movingdown = false;
+	private bool falling = false;
 	private bool jumping = false;
-	private bool chegou = false;
 	private Vector3 xdestination;
 	private Vector3 ydestination;
 	public float speed = 10f;
@@ -22,6 +21,7 @@ public class swipe : MonoBehaviour {
 	private int pos = 1;
 	private Rotation rotateCube;
 	private GameObject aux;
+	private Quaternion rotationdesired;
 
 	void Start()
 	{
@@ -30,10 +30,22 @@ public class swipe : MonoBehaviour {
 	}
 
 	void Update () {
+		//print (this.renderer.material.color);
 		if (moving) {
 			if(transform.position == xdestination){
+				transform.rotation = Quaternion.Euler(0,0,0);
 				moving = false;
 
+			}
+			else{
+				transform.rotation = Quaternion.RotateTowards(transform.rotation,rotationdesired,9*rot);
+				transform.position = Vector3.MoveTowards(transform.position,xdestination,speed*Time.deltaTime);
+			}
+		}
+		else if(falling){
+			if(transform.position == xdestination){
+				falling = false;
+				moving = true;
 			}
 			else{
 				transform.position = Vector3.MoveTowards(transform.position,xdestination,speed*Time.deltaTime);
@@ -42,7 +54,7 @@ public class swipe : MonoBehaviour {
 		else if(jumping){
 			if(transform.position == ydestination && !rotateCube.moving){
 				jumping = false;
-				moving = true;
+				falling = true;
 			}
 			else{
 				transform.position = Vector3.MoveTowards(transform.position,ydestination,speedy*Time.deltaTime);
@@ -122,7 +134,7 @@ public class swipe : MonoBehaviour {
 				{
 					pos++;
 					xdestination = positions[pos];
-					print (xdestination);
+					rotationdesired = Quaternion.Euler(0f,0f,240f);
 					moving = true;
 					tilt = -rot;
 				}
@@ -140,7 +152,7 @@ public class swipe : MonoBehaviour {
 				{
 					pos--;
 					xdestination = positions[pos];
-					print (xdestination);
+					rotationdesired = Quaternion.Euler(0f,0f,120f);
 					moving = true;
 					tilt = rot;
 				}
