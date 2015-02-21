@@ -5,15 +5,22 @@ public class Colider : MonoBehaviour {
 	private int scoreValue = 10;
 	public int countValue;
 	public GameController gameController;
+	private ColorManagement colorManagement;
 	private bool lerping = false;
 	private Color finalcolor;
 	private Color inicialcolor;
 	private int test=1;
-	private float colorstate=3;
+	private int contadorRed=0;
+	private int contadorGreen=0;
+	private int contadorBlue=0;
+	private Color currentcolor;
+
 
 	void Start(){
 		this.renderer.material.color = Color.white;
 		finalcolor = this.renderer.material.color;
+		colorManagement = gameController.GetComponent<ColorManagement>();
+		currentcolor = finalcolor; 
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -21,48 +28,67 @@ public class Colider : MonoBehaviour {
 			return;
 		}
 		else if(other.gameObject.renderer.material.GetColor("_Color")==Color.white){
-			Destroy(gameObject);
-			gameController.gameOver();
+			resetCounter(Color.red);
+			resetCounter(Color.blue);
+			resetCounter(Color.green);
+			inicialcolor=finalcolor;
+			finalcolor = new Color(1f,1f,1f);
+			test = 1;
+			lerping = true;
+			//Destroy(gameObject);
+
 		}
 		else{
-			if((this.renderer.material.color.r == 1 &&  other.renderer.material.color.r == 1)
-			   ||(this.renderer.material.color.g == 1 &&  other.renderer.material.color.g == 1)
-			   ||(this.renderer.material.color.b == 1 &&  other.renderer.material.color.b == 1))
-			{
-				if(colorstate!=0){
-					print ("Baixou");
-					colorstate--;
-				}
-
+			if(currentcolor != other.renderer.material.color){
+				if(currentcolor == Color.red && contadorRed != 3) resetCounter(Color.red);
+				if(currentcolor == Color.blue && contadorBlue != 3) resetCounter(Color.blue);
+				if(currentcolor == Color.green && contadorGreen != 3) resetCounter(Color.green);
+				currentcolor = other.renderer.material.color;			
 			}
-			else{
-				colorstate = 2;
-			}
-			if(colorstate>-1){
+			if(other.renderer.material.color == Color.red){
 				inicialcolor=finalcolor;
-				if(other.renderer.material.color == Color.red)
-					finalcolor = new Color(1f,colorstate/3f,colorstate/3f);
-				else if(other.renderer.material.color == Color.blue)
-					finalcolor = new Color(colorstate/3f,colorstate/3f,1f);
-				else if(other.renderer.material.color == Color.green)
-					finalcolor = new Color(colorstate/3f,1f,colorstate/3f);
-				test = 1;
-				lerping = true;
+				if(contadorRed<3){
+					addCounter(other.renderer.material.color);
+					finalcolor = new Color(1f,(3-contadorRed)/3f,(3-contadorRed)/3f);
+					test = 1;
+					lerping = true;
+				}
+				else{}
+			}
+			else if(other.renderer.material.color == Color.blue){
+				inicialcolor=finalcolor;
+				if(contadorBlue<3){
+					addCounter(other.renderer.material.color);
+					finalcolor = new Color((3-contadorBlue)/3f,(3-contadorBlue)/3f,1f);
+					test = 1;
+					lerping = true;
+				}
+				else{}
+			}
+			else if(other.renderer.material.color == Color.green){
+				inicialcolor=finalcolor;
+				if(contadorGreen<3){
+					addCounter(other.renderer.material.color);
+					finalcolor = new Color((3-contadorGreen)/3f,1f,(3-contadorGreen)/3f);
+					test = 1;
+					lerping = true;
+				}
+				else{}
 			}
 			else{
 				this.renderer.material.SetColor("_Color",other.renderer.material.color);
 			}
-			gameController.AddScore(scoreValue);
-			gameController.addContador(other.renderer.material.color);
+			colorManagement.AddScore(scoreValue);
 		}
 		gameController.removeCube (other.gameObject);
 		Destroy(other.gameObject);
 	}
 
 	void Update(){
+		print (contadorGreen);
 		if (lerping) {
 			//print ("cor inicial - " + inicialcolor);
-			//print ("cor final - " + finalcolor);
+			print ("cor final - " + finalcolor);
 			this.renderer.material.SetColor("_Color",Color.Lerp(inicialcolor,finalcolor,test/50f));
 			if(test == 50){
 				test=1;
@@ -70,5 +96,44 @@ public class Colider : MonoBehaviour {
 			}
 			test++;
 		}
-	}	
+	}
+
+	void addCounter(Color cor){
+		if (cor == Color.red) {
+			if(contadorRed<3)
+			{
+				contadorRed++;
+				colorManagement.addContador(cor,1);
+			}
+		}
+		else if(cor == Color.blue){
+			if(contadorBlue<3) 
+			{
+				contadorBlue++;
+				colorManagement.addContador(cor,1);
+			}
+		}
+		else if(cor == Color.green){
+			if(contadorGreen<3) 
+			{
+				contadorGreen++;
+				colorManagement.addContador(cor,1);
+			}
+		}
+	}
+
+	void resetCounter(Color cor){
+		if (cor == Color.red) {
+			contadorRed = 0;
+			colorManagement.addContador(cor,-3);
+		}
+		else if(cor == Color.blue){
+			contadorBlue = 0;
+			colorManagement.addContador(cor,-3);
+		}
+		else if(cor == Color.green){
+			contadorGreen = 0;
+			colorManagement.addContador(cor,-3);
+		}
+	}
 }

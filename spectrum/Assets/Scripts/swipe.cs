@@ -26,7 +26,7 @@ public class swipe : MonoBehaviour {
 	void Start()
 	{
 		aux =  GameObject.FindWithTag("Cube");
-		rotateCube = aux.GetComponent<Rotation> ();
+		rotateCube = aux.GetComponent<Rotation>();
 	}
 
 	void Update () {
@@ -38,7 +38,7 @@ public class swipe : MonoBehaviour {
 
 			}
 			else{
-				transform.rotation = Quaternion.RotateTowards(transform.rotation,rotationdesired,9*rot);
+				transform.rotation = Quaternion.RotateTowards(transform.rotation,rotationdesired,speed/5*rot);
 				transform.position = Vector3.MoveTowards(transform.position,xdestination,speed*Time.deltaTime);
 			}
 		}
@@ -85,7 +85,7 @@ public class swipe : MonoBehaviour {
 						{
 							pos++;
 							xdestination = positions[pos];
-							rotationdesired = Quaternion.Euler(0f,0f,240f);
+							print (xdestination);
 							moving = true;
 							tilt = -rot;
 						}
@@ -104,7 +104,7 @@ public class swipe : MonoBehaviour {
 						{
 							pos--;
 							xdestination = positions[pos];
-							rotationdesired = Quaternion.Euler(0f,0f,120f);
+							print (xdestination);
 							moving = true;
 							tilt = rot;
 						}
