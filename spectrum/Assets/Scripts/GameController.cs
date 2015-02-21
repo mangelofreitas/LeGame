@@ -21,8 +21,16 @@ public class GameController : MonoBehaviour {
 	public float xspeed;
 	private float tempo = 2.0f;
 	private bool restart = false;
+	public GameObject lost;
+	public Text text1;
+	public Text text2;
+	public Text text3;
+	public Text text4;
+	public Text text5;
+	public Text finalscore;
 
 	void Start () {
+		Time.timeScale = 1f;
 		StartCoroutine(SpawnWaves ());
 	}
 
@@ -103,8 +111,16 @@ public class GameController : MonoBehaviour {
 
 	public void gameOver()
 	{
-		restart = true;
 		Time.timeScale = 0f;
+		lost.SetActive(true);
+		timeLeftText.enabled = false;
+		finalscore.text = text4.text;
+		text1.enabled = false;
+		text2.enabled = false;
+		text3.enabled = false;
+		text4.enabled = false;
+		text5.enabled = false;
+		restart = true;
 	}
 
 

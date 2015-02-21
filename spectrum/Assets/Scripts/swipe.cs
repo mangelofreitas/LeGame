@@ -85,7 +85,7 @@ public class swipe : MonoBehaviour {
 						{
 							pos++;
 							xdestination = positions[pos];
-							print (xdestination);
+							rotationdesired = Quaternion.Euler(0f,0f,240f);
 							moving = true;
 							tilt = -rot;
 						}
@@ -104,7 +104,7 @@ public class swipe : MonoBehaviour {
 						{
 							pos--;
 							xdestination = positions[pos];
-							print (xdestination);
+							rotationdesired = Quaternion.Euler(0f,0f,120f);
 							moving = true;
 							tilt = rot;
 						}
