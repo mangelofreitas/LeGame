@@ -25,19 +25,20 @@ public class Colider : MonoBehaviour {
 			gameController.gameOver();
 		}
 		else{
-			if((this.renderer.material.color.r == 1 || this.renderer.material.color.g == 1 || this.renderer
-			   .material.color.b == 1) && other.renderer.material.color == this.renderer.material.color)
+			if((this.renderer.material.color.r == 1 &&  other.renderer.material.color.r == 1)
+			   ||(this.renderer.material.color.g == 1 &&  other.renderer.material.color.g == 1)
+			   ||(this.renderer.material.color.b == 1 &&  other.renderer.material.color.b == 1))
 			{
 				if(colorstate!=0){
 					print ("Baixou");
 					colorstate--;
 				}
-				colorstate = 2;
-			}
-			else{
 
 			}
-			if(colorstate>0){
+			else{
+				colorstate = 2;
+			}
+			if(colorstate>-1){
 				inicialcolor=finalcolor;
 				if(other.renderer.material.color == Color.red)
 					finalcolor = new Color(1f,colorstate/3f,colorstate/3f);
