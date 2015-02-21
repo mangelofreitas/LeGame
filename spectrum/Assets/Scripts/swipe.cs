@@ -12,11 +12,7 @@ public class swipe : MonoBehaviour {
 	public float speedy = 20f;
 	private float xStart = 0.0f;
 	private float xEnd = 0.0f;
-	private float yStart = 0.0f;
-	private float yEnd = 0.0f;
 	public float rot = 50f;
-	private float tilt;
-	private bool sendCall = true; 
 	private Vector3[] positions = {new Vector3(-7f, 12.0f, -100.0f),new Vector3(0.0f,12.0f,-100.0f),new Vector3(7f, 12.0f,-100.0f)}; //MUDAR
 	private int pos = 1;
 	private Rotation rotateCube;
@@ -65,11 +61,9 @@ public class swipe : MonoBehaviour {
 				
 				if (touch.phase == TouchPhase.Began) {
 					xStart = touch.position.x;
-					yStart = touch.position.y;
 				}
 				if (touch.phase == TouchPhase.Moved){
 					xEnd = touch.position.x;
-					yEnd = touch.position.y;
 					
 					if ((xStart < xEnd)) {
 						//print ("Right Swipe");
@@ -87,7 +81,6 @@ public class swipe : MonoBehaviour {
 							xdestination = positions[pos];
 							rotationdesired = Quaternion.Euler(0f,0f,240f);
 							moving = true;
-							tilt = -rot;
 						}
 					}
 					if ((xStart > xEnd)) {
@@ -106,7 +99,6 @@ public class swipe : MonoBehaviour {
 							xdestination = positions[pos];
 							rotationdesired = Quaternion.Euler(0f,0f,120f);
 							moving = true;
-							tilt = rot;
 						}
 					}
 					
@@ -115,7 +107,6 @@ public class swipe : MonoBehaviour {
 				if (touch.phase == TouchPhase.Ended) {
 					xStart = 0.0f;    // resetting start and end x position.
 					xEnd = 0.0f;
-					sendCall = true;      //Reset to send call again after touch has been completed.
 					
 				}
 				
@@ -136,7 +127,6 @@ public class swipe : MonoBehaviour {
 					xdestination = positions[pos];
 					rotationdesired = Quaternion.Euler(0f,0f,240f);
 					moving = true;
-					tilt = -rot;
 				}
 			}
 			else if (Input.GetKeyDown("a")){
@@ -154,7 +144,6 @@ public class swipe : MonoBehaviour {
 					xdestination = positions[pos];
 					rotationdesired = Quaternion.Euler(0f,0f,120f);
 					moving = true;
-					tilt = rot;
 				}
 			}
 		}

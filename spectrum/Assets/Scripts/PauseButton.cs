@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class PauseButton : MonoBehaviour {
 
-	private bool resumeIn3Seconds = false;
 	public GameObject pauseB;
 	public Text Counter123;
 	public Text text1;
@@ -53,7 +52,6 @@ public class PauseButton : MonoBehaviour {
 		}
 		pauseB.SetActive(true);
 		Counter123.enabled = false;
-		resumeIn3Seconds = false;
 		Time.timeScale = 1f;
 	}
 

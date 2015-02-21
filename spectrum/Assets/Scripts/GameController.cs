@@ -16,10 +16,10 @@ public class GameController : MonoBehaviour {
 	private movement movimento;
 	private static Color[] cores = {Color.red,Color.blue,Color.green,Color.white};
 	public Text timeLeftText;
-	public float timeLeft = 0.0f;
+	public float timeLeft;
 	private float timeoccurred = 0.0f;
 	public float xspeed;
-	private float tempo = 2.0f;
+	private float tempo = 1.5f;
 	private bool restart = false;
 	public GameObject lost;
 	public Text text1;
@@ -63,14 +63,15 @@ public class GameController : MonoBehaviour {
 		yield return new WaitForSeconds (startWait);
 		while(true)
 		{
-			/*if(cubitos.Count>0){
-				foreach(GameObject cubo in cubitos){
-					movimento.speed = movimento.speed*xspeed;
-				}
-			}*/
+
 			if(((int)timeoccurred%10 == 0)&&(int)timeoccurred!=0 && timeoccurred<80){
-				xspeed += xspeed * 0.25f;
-				tempo -= tempo * 0.15f;
+				xspeed += xspeed * 0.20f;
+				tempo -= tempo * 0.12f;
+				if(cubitos.Count>0){
+					foreach(GameObject cubo in cubitos){
+						cubo.GetComponent<movement>().speed=cubo.GetComponent<movement>().speed*xspeed;
+					}
+				}
 			}
 			else if((int)timeoccurred%10 == 0 && timeoccurred>=80)
 			{

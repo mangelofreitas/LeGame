@@ -66,7 +66,7 @@ public class Colider : MonoBehaviour {
 				inicialcolor=finalcolor;
 				if(contadorRed<=3){
 					if(contadorRed==2){
-						gameController.timeLeft+=2;
+						gameController.timeLeft+=4;
 						posMulti++;
 					}
 					addCounter(other.renderer.material.color);
@@ -79,7 +79,7 @@ public class Colider : MonoBehaviour {
 				inicialcolor=finalcolor;
 				if(contadorBlue<=3){
 					if(contadorBlue == 2){
-						gameController.timeLeft+=2;
+						gameController.timeLeft+=4;
 						posMulti++;
 					}
 					addCounter(other.renderer.material.color);
@@ -92,7 +92,7 @@ public class Colider : MonoBehaviour {
 				inicialcolor=finalcolor;
 				if(contadorGreen<=3){
 					if(contadorGreen == 2){
-						gameController.timeLeft+=2;
+						gameController.timeLeft+=4;
 						posMulti++;
 					}
 					addCounter(other.renderer.material.color);
