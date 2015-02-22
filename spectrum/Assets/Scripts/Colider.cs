@@ -6,7 +6,9 @@ public class Colider : MonoBehaviour {
 	public int countValue;
 	public GameController gameController;
 	public ColorManagement colorManagement;
+	private float timeToRainbow = 10f;
 	private bool lerping = false;
+	public bool rainbowlerping = false;
 	private Color finalcolor;
 	private Color inicialcolor;
 	private int test=1;
@@ -16,6 +18,8 @@ public class Colider : MonoBehaviour {
 	private Color currentcolor;
 	private int [] multiplier = {1,2,4,6};
 	private int posMulti = 0;
+	private int ncores;
+	public float timeLeftAux;
 	
 	void Start(){
 		this.renderer.material.color = Color.white;
@@ -36,10 +40,10 @@ public class Colider : MonoBehaviour {
 			finalcolor = new Color(1f,1f,1f);
 			test = 1;
 			lerping = true;
-			
+			gameController.velocityDecrease=true;
 		}
 		else{
-
+			
 			if(currentcolor != other.renderer.material.color){
 				if(currentcolor == Color.red && contadorRed != 3){
 					resetCounter(Color.red);
@@ -67,7 +71,7 @@ public class Colider : MonoBehaviour {
 				if(contadorRed<=3){
 					if(contadorRed==2){
 						gameController.timeLeft+=4;
-						posMulti++;
+						if(posMulti<4)posMulti++;
 					}
 					addCounter(other.renderer.material.color);
 					finalcolor = new Color(1f,(3-contadorRed)/3f,(3-contadorRed)/3f);
@@ -93,7 +97,7 @@ public class Colider : MonoBehaviour {
 				if(contadorGreen<=3){
 					if(contadorGreen == 2){
 						gameController.timeLeft+=4;
-						posMulti++;
+						if(posMulti<4)posMulti++;
 					}
 					addCounter(other.renderer.material.color);
 					finalcolor = new Color((3-contadorGreen)/3f,1f,(3-contadorGreen)/3f);
@@ -111,6 +115,8 @@ public class Colider : MonoBehaviour {
 	
 	void Update(){
 		if(contadorBlue == 3 && contadorRed == 3 && contadorGreen == 3){
+			lerping=false;
+			superSayainmode();
 			resetCounter(Color.red);
 			resetCounter(Color.blue);
 			resetCounter(Color.green);
@@ -121,6 +127,32 @@ public class Colider : MonoBehaviour {
 			if(test == 50){
 				test=1;
 				lerping = false;
+			}
+			test++;
+		}
+		else if (rainbowlerping) {
+			this.renderer.material.SetColor("_Color",Color.Lerp(inicialcolor,finalcolor,test/20f));
+			if(gameController.cubitos.Count>0){
+				foreach(GameObject cubo in gameController.cubitos){
+					cubo.renderer.material.color = this.renderer.material.color;
+				}
+			}
+			if(test == 20){
+				test=1;
+				ncores--;
+				if(ncores==-1){
+					rainbowlerping = false;
+					inicialcolor = transform.renderer.material.color;
+					finalcolor = Color.white;
+					foreach(GameObject cubo in gameController.cubitos){
+						cubo.renderer.material.color = cubo.GetComponent<movement>().color;
+					}
+					lerping = true;
+				}
+				else{
+					inicialcolor = finalcolor;
+					finalcolor = new Color(Random.value,Random.value,Random.value);
+				}
 			}
 			test++;
 		}
@@ -149,6 +181,18 @@ public class Colider : MonoBehaviour {
 			}
 		}
 	}
+	void superSayainmode(){
+		timeLeftAux = gameController.timeLeft;
+		print (timeLeftAux);
+		inicialcolor = Color.white;
+		finalcolor = new Color (Random.value, Random.value, Random.value);
+		lerping = false;
+		test = 1;
+		ncores = 10;
+		rainbowlerping = true;
+	}
+	
+	
 	
 	void resetCounter(Color cor){
 		if (cor == Color.red) {

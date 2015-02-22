@@ -12,14 +12,15 @@ public class GameController : MonoBehaviour {
 	public GameObject[] cubosLateralDir;
 	public GameObject[] cubosBaixo;
 	public GameObject parent;
-	private List<GameObject> cubitos = new List<GameObject>();
+	public GameObject prism;
+	public List<GameObject> cubitos = new List<GameObject>();
 	private movement movimento;
 	private static Color[] cores = {Color.red,Color.blue,Color.green,Color.white};
 	public Text timeLeftText;
 	public float timeLeft;
 	private float timeoccurred = 0.0f;
 	public float xspeed;
-	private float tempo = 1.5f;
+	public float tempo;
 	private bool restart = false;
 	public GameObject lost;
 	public Text text1;
@@ -28,6 +29,13 @@ public class GameController : MonoBehaviour {
 	public Text text4;
 	public Text text5;
 	public Text finalscore;
+	private float move =  10;
+	public float timeInit;
+	public bool velocityDecrease = false;
+	public bool next = true;
+	private float speedActual;
+	private float timeActual;
+	private float toccurred;
 
 	void Start () {
 		Time.timeScale = 1f;
@@ -36,25 +44,24 @@ public class GameController : MonoBehaviour {
 
 	void Update()
 	{	
-		UpdateTimeLeft ();
-		if (timeLeft <= 0.0f) {
-			gameOver ();
-		} else {
-			timeLeft -= Time.deltaTime;
-			timeoccurred += Time.deltaTime;
+		foreach(GameObject cubo in cubitos){
+			cubo.GetComponent<movement>().speed = move;
+		}
+		if (!prism.GetComponent<Colider> ().rainbowlerping) {
+			UpdateTimeLeft ();
+			if (timeLeft <= 0.0f) {
+				gameOver ();
+			} else {
+				timeLeft -= Time.deltaTime;
+				timeoccurred += Time.deltaTime;
+			}
+		} 
+		else {
+			timeLeft = prism.GetComponent<Colider>().timeLeftAux;
 		}
 		if(Input.GetKey(KeyCode.R))
 		{
 			Application.LoadLevel(Application.loadedLevel);
-		} 
-		if (restart) 
-		{
-			foreach (Touch touch in Input.touches) {
-				if ((touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled))
-				{
-					Application.LoadLevel(Application.loadedLevel);
-				}
-			}
 		}
 	}
 
@@ -64,19 +71,32 @@ public class GameController : MonoBehaviour {
 		while(true)
 		{
 
-			if(((int)timeoccurred%10 == 0)&&(int)timeoccurred!=0 && timeoccurred<80){
-				xspeed += xspeed * 0.20f;
-				tempo -= tempo * 0.12f;
-				if(cubitos.Count>0){
-					foreach(GameObject cubo in cubitos){
-						cubo.GetComponent<movement>().speed=cubo.GetComponent<movement>().speed*xspeed;
-					}
+			if(velocityDecrease)
+			{
+				if(next)
+				{
+					print ("decrease");
+					speedActual = xspeed;
+					timeActual = tempo;
+					toccurred = timeoccurred;
+					xspeed = 5.0f;
+					timeoccurred = 0.0f;
+					move=move*xspeed;
+					next=false;
+				}
+				if((int)timeoccurred>=3)
+				{
+					xspeed = speedActual;
+					timeoccurred = toccurred;
+					velocityDecrease = false;
+					move=move*xspeed;
+					next = true;
 				}
 			}
-			else if((int)timeoccurred%10 == 0 && timeoccurred>=80)
+			if((int)timeoccurred%10 == 0 && timeoccurred!=0)
 			{
-				xspeed += xspeed * 0.04f;
-				tempo -= tempo * 0.05f;
+				xspeed += xspeed * 0.05f;
+				tempo -= tempo * 0.01f;
 			}
 			SpawnCube(cubosPrincipal);
 			SpawnCube(cubosLateralEsq);
@@ -103,7 +123,7 @@ public class GameController : MonoBehaviour {
 
 	void UpdateTimeLeft(){
 		timeLeft = Mathf.Round (timeLeft * 100f) / 100f;
-		timeLeftText.text = "Timer: " +(int) timeLeft;
+		timeLeftText.text = "" +(int) timeLeft;
 	}
 
 	public void removeCube(GameObject cubo){
