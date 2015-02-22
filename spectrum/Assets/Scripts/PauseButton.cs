@@ -13,6 +13,7 @@ public class PauseButton : MonoBehaviour {
 	public Text text4;
 	public Text text5;
 	public Text text7;
+	public GameController gameController;
 
 	public void pauseSystem(){
 		player.GetComponent<swipe>().enabled = false;
@@ -23,6 +24,7 @@ public class PauseButton : MonoBehaviour {
 		text5.enabled = false;
 		text7.enabled = false;
 		Time.timeScale = 0f;
+		gameController.pauseMusic ();
 	}
 	public void resumeSystem(){
 		Counter123.enabled = true;
@@ -32,6 +34,7 @@ public class PauseButton : MonoBehaviour {
 		text4.enabled = true;
 		text5.enabled = true;
 		text7.enabled = true;
+		gameController.continueMusic ();
 		StartCoroutine(ResumeAfterSeconds(3));
 	}
 	

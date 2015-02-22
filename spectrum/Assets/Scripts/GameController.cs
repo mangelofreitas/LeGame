@@ -43,10 +43,20 @@ public class GameController : MonoBehaviour {
 		StartCoroutine(SpawnWaves ());
 	}
 
+	public void pauseMusic()
+	{
+		audio.Pause ();
+	}
+
+	public void continueMusic()
+	{
+		audio.Play ();
+	}
+
 	void Update()
 	{	
+		UpdateTimeLeft ();
 		if (!prism.GetComponent<Colider> ().rainbowlerping) {
-			UpdateTimeLeft ();
 			if (timeLeft <= 0.0f) {
 				gameOver ();
 			} else {

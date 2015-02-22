@@ -139,7 +139,7 @@ public class Colider : MonoBehaviour {
 		gameController.removeCube (other.gameObject);
 		Destroy(other.gameObject);
 	}
-	
+
 	void Update(){
 		if(contadorBlue == 3 && contadorRed == 3 && contadorGreen == 3){
 			lerping=false;
