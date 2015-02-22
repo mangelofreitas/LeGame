@@ -7,7 +7,6 @@ public class Colider : MonoBehaviour {
 	public int countValue;
 	public GameController gameController;
 	public ColorManagement colorManagement;
-	private float timeToRainbow = 10f;
 	private bool lerping = false;
 	public bool rainbowlerping = false;
 	private Color finalcolor;
@@ -22,6 +21,7 @@ public class Colider : MonoBehaviour {
 	private int ncores;
 	public float timeLeftAux;
 	public Text text6;
+	public Text text7;
 	
 	void Start(){
 		this.renderer.material.color = Color.white;
@@ -29,93 +29,113 @@ public class Colider : MonoBehaviour {
 		colorManagement = gameController.GetComponent<ColorManagement>();
 		currentcolor = finalcolor; 
 		text6.text="";
+		text7.text="x"+multiplier[posMulti];
 	}
 	
 	void OnTriggerEnter(Collider other){
-		if(other.tag=="Boundery"){
-			return;
-		}
-		else if(other.gameObject.renderer.material.GetColor("_Color")==Color.white){
-			resetCounter(Color.red);
-			resetCounter(Color.blue);
-			resetCounter(Color.green);
-			inicialcolor=finalcolor;
-			finalcolor = new Color(1f,1f,1f);
-			test = 1;
-			lerping = true;
-			gameController.timeLeft-=2;
-			timeEffect("-2");
-		}
-		else{
-			
-			if(currentcolor != other.renderer.material.color){
-				if(currentcolor == Color.red && contadorRed != 3){
-					resetCounter(Color.red);
-					resetCounter(Color.blue);
-					resetCounter(Color.green);
-					posMulti=0;
-				}
-				else if(currentcolor == Color.blue && contadorBlue != 3){
-					resetCounter(Color.red);
-					resetCounter(Color.blue);
-					resetCounter(Color.green);
-					posMulti=0;
-				}
-				else if(currentcolor == Color.green && contadorGreen != 3){
-					resetCounter(Color.red);
-					resetCounter(Color.blue);
-					resetCounter(Color.green);
-					posMulti=0;
-				}
-				currentcolor = other.renderer.material.color;			
-			}
+		if (rainbowlerping) {
 			colorManagement.AddScore(scoreValue*multiplier[posMulti]);
-			if(other.renderer.material.color == Color.red){
-				inicialcolor=finalcolor;
-				if(contadorRed<=3){
-					if(contadorRed==2){
-						gameController.timeLeft+=4;
-						timeEffect("+4");
-						if(posMulti<4)posMulti++;
-					}
-					addCounter(other.renderer.material.color);
-					finalcolor = new Color(1f,(3-contadorRed)/3f,(3-contadorRed)/3f);
-					test = 1;
-					lerping = true;
-				}
+		}
+		else {
+			if(other.tag=="Boundery"){
+				return;
 			}
-			else if(other.renderer.material.color == Color.blue){
+			else if(other.gameObject.renderer.material.GetColor("_Color")==Color.white){
+				posMulti=0;
+				multiplierEffect();
+				resetCounter(Color.red);
+				resetCounter(Color.blue);
+				resetCounter(Color.green);
 				inicialcolor=finalcolor;
-				if(contadorBlue<=3){
-					if(contadorBlue == 2){
-						gameController.timeLeft+=4;
-						timeEffect("+4");
-						posMulti++;
-					}
-					addCounter(other.renderer.material.color);
-					finalcolor = new Color((3-contadorBlue)/3f,(3-contadorBlue)/3f,1f);
-					test = 1;
-					lerping = true;
-				}
-			}
-			else if(other.renderer.material.color == Color.green){
-				inicialcolor=finalcolor;
-				if(contadorGreen<=3){
-					if(contadorGreen == 2){
-						gameController.timeLeft+=4;
-						timeEffect("+4");
-						if(posMulti<4)posMulti++;
-					}
-					addCounter(other.renderer.material.color);
-					finalcolor = new Color((3-contadorGreen)/3f,1f,(3-contadorGreen)/3f);
-					test = 1;
-					lerping = true;
-				}
+				finalcolor = new Color(1f,1f,1f);
+				test = 1;
+				lerping = true;
+				gameController.timeLeft-=2;
+				timeEffect("-2");
 			}
 			else{
-				this.renderer.material.SetColor("_Color",other.renderer.material.color);
+				if(currentcolor != other.renderer.material.color){
+					if(currentcolor == Color.red && contadorRed != 3){
+						resetCounter(Color.red);
+						resetCounter(Color.blue);
+						resetCounter(Color.green);
+						posMulti=0;
+						multiplierEffect();
+					}
+					else if(currentcolor == Color.blue && contadorBlue != 3){
+						resetCounter(Color.red);
+						resetCounter(Color.blue);
+						resetCounter(Color.green);
+						posMulti=0;
+						multiplierEffect();
+					}
+					else if(currentcolor == Color.green && contadorGreen != 3){
+						resetCounter(Color.red);
+						resetCounter(Color.blue);
+						resetCounter(Color.green);
+						posMulti=0;
+						multiplierEffect();
+					}
+					currentcolor = other.renderer.material.color;			
+				}
+				colorManagement.AddScore(scoreValue*multiplier[posMulti]);
+				if(other.renderer.material.color == Color.red){
+					inicialcolor=finalcolor;
+					if(contadorRed<=3){
+						if(contadorRed==2){
+							gameController.timeLeft+=4;
+							timeEffect("+4");
+							if(posMulti<3){
+								posMulti++;
+								multiplierEffect();
+							}
+						}
+						addCounter(other.renderer.material.color);
+						finalcolor = new Color(1f,(3-contadorRed)/3f,(3-contadorRed)/3f);
+						test = 1;
+						lerping = true;
+					}
+				}
+				else if(other.renderer.material.color == Color.blue){
+					inicialcolor=finalcolor;
+					if(contadorBlue<=3){
+						if(contadorBlue == 2){
+							gameController.timeLeft+=4;
+							timeEffect("+4");
+							if(posMulti<3){
+								posMulti++;
+								multiplierEffect();
+							}
+						}
+						addCounter(other.renderer.material.color);
+						finalcolor = new Color((3-contadorBlue)/3f,(3-contadorBlue)/3f,1f);
+						test = 1;
+						lerping = true;
+					}
+				}
+				else if(other.renderer.material.color == Color.green){
+					inicialcolor=finalcolor;
+					if(contadorGreen<=3){
+						if(contadorGreen == 2){
+							gameController.timeLeft+=4;
+							timeEffect("+4");
+							if(posMulti<3){
+								posMulti++;
+								multiplierEffect();
+							}
+						}
+						addCounter(other.renderer.material.color);
+						finalcolor = new Color((3-contadorGreen)/3f,1f,(3-contadorGreen)/3f);
+						test = 1;
+						lerping = true;
+					}
+				}
+				else{
+					this.renderer.material.SetColor("_Color",other.renderer.material.color);
+				}
 			}
 		}
+		audio.Play ();
 		gameController.removeCube (other.gameObject);
 		Destroy(other.gameObject);
 	}
@@ -127,7 +147,6 @@ public class Colider : MonoBehaviour {
 			resetCounter(Color.red);
 			resetCounter(Color.blue);
 			resetCounter(Color.green);
-			posMulti=0;
 		}
 		if (lerping) {
 			this.renderer.material.SetColor("_Color",Color.Lerp(inicialcolor,finalcolor,test/50f));
@@ -154,6 +173,8 @@ public class Colider : MonoBehaviour {
 					foreach(GameObject cubo in gameController.cubitos){
 						cubo.renderer.material.color = cubo.GetComponent<movement>().color;
 					}
+					posMulti=0;
+					multiplierEffect();
 					lerping = true;
 				}
 				else{
@@ -204,17 +225,24 @@ public class Colider : MonoBehaviour {
 		else
 		{
 			text6.transform.position = destin;
-			StartCoroutine(FadeTo(0.0f,1.0f));
+			StartCoroutine(FadeTo(text6, 0.0f,1.0f));
 		}
 	}
 
-	IEnumerator FadeTo(float aValue, float aTime)
+	void multiplierEffect()
 	{
-		float alpha = text6.color.a;
+		StartCoroutine(FadeTo(text7,0.0f,0.1f));
+		text7.text="x"+multiplier[posMulti];
+		StartCoroutine(FadeTo(text7,1.0f,0.1f));
+	}
+
+	IEnumerator FadeTo(Text text,float aValue, float aTime)
+	{
+		float alpha = text.color.a;
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
 		{
 			Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
-			text6.color = newColor;
+			text.color = newColor;
 			yield return null;
 		}
 	}

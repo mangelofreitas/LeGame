@@ -93,9 +93,10 @@ public class GameController : MonoBehaviour {
 		Quaternion spawnRotation = Quaternion.identity;
 		GameObject child = Instantiate(block, arrayCubos[Random.Range(0,3)].transform.position, spawnRotation) as GameObject;
 		child.transform.SetParent(parent.transform);
-		child.renderer.material.SetColor("_Color",cores[Random.Range(0,4)]);
 		movimento = child.GetComponent<movement>();
+		movimento.color = cores [Random.Range (0, 4)];
 		movimento.speed = movimento.speed * xspeed;
+		child.renderer.material.SetColor("_Color",movimento.color);
 		cubitos.Add(child);
 	}
 

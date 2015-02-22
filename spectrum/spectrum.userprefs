@@ -1,8 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Unity Projects\spectrum\Assets\Scripts\GameController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameController.cs">
     <Files>
-      <File FileName="..\..\..\Unity Projects\spectrum\Assets\Scripts\GameController.cs" Line="30" Column="20" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="32" Column="24" />
+      <File FileName="Assets\Scripts\Colider.cs" Line="50" Column="4" />
+      <File FileName="Assets\Scripts\swipe.cs" Line="38" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
