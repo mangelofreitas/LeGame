@@ -121,6 +121,7 @@ public class GameController : MonoBehaviour {
 		text3.enabled = false;
 		text4.enabled = false;
 		text5.enabled = false;
+		prism.GetComponent<Colider>().text7.enabled = false;
 		restart = true;
 	}
 
