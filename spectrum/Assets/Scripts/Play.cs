@@ -4,7 +4,7 @@ using System.Collections;
 public class Play : MonoBehaviour {
 
 	
-	public void ChangeScene () {
-		Application.LoadLevel(1);
+	public void ChangeScene (int i) {
+		Application.LoadLevel(i);
 	}
 }

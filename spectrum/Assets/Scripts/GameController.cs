@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour {
 	private float speedActual;
 	private float timeActual;
 	private float toccurred;
+	public Text highScoreText;
 
 	void Start () {
 		Time.timeScale = 1f;
@@ -86,7 +87,7 @@ public class GameController : MonoBehaviour {
 						cubo.GetComponent<movement>().speed=cubo.GetComponent<movement>().speed*xspeed;
 					}
 				}
-				xspeed += xspeed * 0.05f;
+				if(xspeed<13)xspeed += xspeed * 0.05f;
 				tempo -= tempo * 0.01f;
 			}
 			SpawnCube(cubosPrincipal);
@@ -125,6 +126,22 @@ public class GameController : MonoBehaviour {
 
 	public void gameOver()
 	{
+		int _score = PlayerPrefs.GetInt("CurrentScore");       
+		int _highscore = PlayerPrefs.GetInt("HighScore");
+
+		_score = transform.GetComponent<ColorManagement> ().score;
+		if (_score > _highscore)
+		{
+			PlayerPrefs.SetInt("HighScore", _score);
+			highScoreText.text = "New High Score: "+_score;
+			Debug.Log(_score);
+		}
+		else
+		{
+			highScoreText.text = "High Score: "+_highscore;
+			Debug.Log(_highscore);
+		}
+
 		prism.GetComponent<swipe>().enabled = false;
 		Time.timeScale = 0f;
 		pauseB.SetActive (false);
@@ -140,6 +157,7 @@ public class GameController : MonoBehaviour {
 		text7.enabled = false;
 		prism.GetComponent<Colider>().text7.enabled = false;
 		restart = true;
+		PlayerPrefs.Save ();
 	}
 
 

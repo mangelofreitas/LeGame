@@ -29,7 +29,7 @@ public class Colider : MonoBehaviour {
 		colorManagement = gameController.GetComponent<ColorManagement>();
 		currentcolor = finalcolor; 
 		text6.text="";
-		text7.text="x"+multiplier[posMulti];
+		text7.text="";
 	}
 	
 	void OnTriggerEnter(Collider other){
@@ -83,8 +83,8 @@ public class Colider : MonoBehaviour {
 					inicialcolor=finalcolor;
 					if(contadorRed<=3){
 						if(contadorRed==2){
-							gameController.timeLeft+=4;
-							timeEffect("+4");
+							gameController.timeLeft+=2*(posMulti+1);
+							timeEffect("+" + 2*(1+posMulti));
 							if(posMulti<3){
 								posMulti++;
 								multiplierEffect();
@@ -100,8 +100,8 @@ public class Colider : MonoBehaviour {
 					inicialcolor=finalcolor;
 					if(contadorBlue<=3){
 						if(contadorBlue == 2){
-							gameController.timeLeft+=4;
-							timeEffect("+4");
+							gameController.timeLeft+=2*(posMulti+1);
+							timeEffect("+" + 2*(1+posMulti));
 							if(posMulti<3){
 								posMulti++;
 								multiplierEffect();
@@ -117,8 +117,8 @@ public class Colider : MonoBehaviour {
 					inicialcolor=finalcolor;
 					if(contadorGreen<=3){
 						if(contadorGreen == 2){
-							gameController.timeLeft+=4;
-							timeEffect("+4");
+							gameController.timeLeft+=2*(posMulti+1);
+							timeEffect("+" + 2*(1+posMulti));
 							if(posMulti<3){
 								posMulti++;
 								multiplierEffect();
@@ -231,9 +231,18 @@ public class Colider : MonoBehaviour {
 
 	void multiplierEffect()
 	{
-		StartCoroutine(FadeTo(text7,0.0f,0.1f));
-		text7.text="x"+multiplier[posMulti];
-		StartCoroutine(FadeTo(text7,1.0f,0.1f));
+
+		if (posMulti == 0) 
+		{
+			text7.text="";
+		}
+		else
+		{
+			StartCoroutine(FadeTo(text7,0.5f,1.0f));
+			text7.text="x"+multiplier[posMulti];
+			StartCoroutine(FadeTo(text7,1.0f,1.0f));
+		}
+
 	}
 
 	IEnumerator FadeTo(Text text,float aValue, float aTime)
@@ -241,7 +250,7 @@ public class Colider : MonoBehaviour {
 		float alpha = text.color.a;
 		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
 		{
-			Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+			Color newColor = new Color(text.color.r, text.color.g, text.color.b, Mathf.Lerp(alpha,aValue,t));
 			text.color = newColor;
 			yield return null;
 		}

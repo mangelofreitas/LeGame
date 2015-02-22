@@ -70,7 +70,7 @@ public class swipe : MonoBehaviour {
 						if(pos==2)
 						{
 							pos=0;
-							ydestination = new Vector3(-7f,20f,-100f);
+							ydestination = new Vector3(-7f,15f,-100f);
 							xdestination = positions[pos];
 							rotateCube.moveLeft=true;
 							jumping=true;
@@ -88,7 +88,7 @@ public class swipe : MonoBehaviour {
 						if(pos==0)
 						{
 							pos=2;
-							ydestination = new Vector3(7f,20f,-100f);
+							ydestination = new Vector3(7f,15f,-100f);
 							xdestination = positions[pos];
 							rotateCube.moveRight=true;
 							jumping = true;
@@ -116,7 +116,7 @@ public class swipe : MonoBehaviour {
 				if(pos==2)
 				{
 					pos=0;
-					ydestination = new Vector3(-7f,20f,-100f);
+					ydestination = new Vector3(-7f,15f,-100f);
 					xdestination = positions[pos];
 					rotateCube.moveLeft=true;
 					jumping=true;
@@ -133,7 +133,7 @@ public class swipe : MonoBehaviour {
 				if(pos==0)
 				{
 					pos=2;
-					ydestination = new Vector3(7f,20f,-100f);
+					ydestination = new Vector3(7f,15f,-100f);
 					xdestination = positions[pos];
 					rotateCube.moveRight=true;
 					jumping = true;

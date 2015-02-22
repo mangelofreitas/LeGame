@@ -46,7 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\AuraEffect.cs" />
+     <Compile Include="Assets\HighScore.cs" />
      <Compile Include="Assets\Scripts\Colider.cs" />
      <Compile Include="Assets\Scripts\ColorManagement.cs" />
      <Compile Include="Assets\Scripts\DestroyByBoundery.cs" />

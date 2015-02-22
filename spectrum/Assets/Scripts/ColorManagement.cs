@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ColorManagement : MonoBehaviour {
 	
 	public Text scoreText;
-	private int score;
+	public int score;
 	
 	public Text countRed;
 	public Text countGreen;
