@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Colider : MonoBehaviour {
 	private int scoreValue = 10;
@@ -20,12 +21,14 @@ public class Colider : MonoBehaviour {
 	private int posMulti = 0;
 	private int ncores;
 	public float timeLeftAux;
+	public Text text6;
 	
 	void Start(){
 		this.renderer.material.color = Color.white;
 		finalcolor = this.renderer.material.color;
 		colorManagement = gameController.GetComponent<ColorManagement>();
 		currentcolor = finalcolor; 
+		text6.text="";
 	}
 	
 	void OnTriggerEnter(Collider other){
@@ -40,7 +43,8 @@ public class Colider : MonoBehaviour {
 			finalcolor = new Color(1f,1f,1f);
 			test = 1;
 			lerping = true;
-			gameController.velocityDecrease=true;
+			gameController.timeLeft-=2;
+			timeEffect("-2");
 		}
 		else{
 			
@@ -71,6 +75,7 @@ public class Colider : MonoBehaviour {
 				if(contadorRed<=3){
 					if(contadorRed==2){
 						gameController.timeLeft+=4;
+						timeEffect("+4");
 						if(posMulti<4)posMulti++;
 					}
 					addCounter(other.renderer.material.color);
@@ -84,6 +89,7 @@ public class Colider : MonoBehaviour {
 				if(contadorBlue<=3){
 					if(contadorBlue == 2){
 						gameController.timeLeft+=4;
+						timeEffect("+4");
 						posMulti++;
 					}
 					addCounter(other.renderer.material.color);
@@ -97,6 +103,7 @@ public class Colider : MonoBehaviour {
 				if(contadorGreen<=3){
 					if(contadorGreen == 2){
 						gameController.timeLeft+=4;
+						timeEffect("+4");
 						if(posMulti<4)posMulti++;
 					}
 					addCounter(other.renderer.material.color);
@@ -181,6 +188,37 @@ public class Colider : MonoBehaviour {
 			}
 		}
 	}
+
+	void timeEffect(string time)
+	{
+		text6.color = new Color (1,1,1,1);
+		Vector3 posres = text6.transform.position;
+		Vector3 vec = new Vector3 (text6.transform.position.x, 1100, text6.transform.position.z);
+		text6.text = ""+time;
+		Vector3 destin = Vector3.MoveTowards(posres,vec,5.0f*Time.deltaTime);
+		if (text6.transform.position == destin) 
+		{
+			text6.text="";
+			text6.transform.position=posres;
+		}
+		else
+		{
+			text6.transform.position = destin;
+			StartCoroutine(FadeTo(0.0f,1.0f));
+		}
+	}
+
+	IEnumerator FadeTo(float aValue, float aTime)
+	{
+		float alpha = text6.color.a;
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+		{
+			Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+			text6.color = newColor;
+			yield return null;
+		}
+	}
+
 	void superSayainmode(){
 		timeLeftAux = gameController.timeLeft;
 		print (timeLeftAux);

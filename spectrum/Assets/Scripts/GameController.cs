@@ -29,9 +29,7 @@ public class GameController : MonoBehaviour {
 	public Text text4;
 	public Text text5;
 	public Text finalscore;
-	private float move =  10;
 	public float timeInit;
-	public bool velocityDecrease = false;
 	public bool next = true;
 	private float speedActual;
 	private float timeActual;
@@ -44,9 +42,6 @@ public class GameController : MonoBehaviour {
 
 	void Update()
 	{	
-		foreach(GameObject cubo in cubitos){
-			cubo.GetComponent<movement>().speed = move;
-		}
 		if (!prism.GetComponent<Colider> ().rainbowlerping) {
 			UpdateTimeLeft ();
 			if (timeLeft <= 0.0f) {
@@ -71,30 +66,13 @@ public class GameController : MonoBehaviour {
 		while(true)
 		{
 
-			if(velocityDecrease)
-			{
-				if(next)
-				{
-					print ("decrease");
-					speedActual = xspeed;
-					timeActual = tempo;
-					toccurred = timeoccurred;
-					xspeed = 5.0f;
-					timeoccurred = 0.0f;
-					move=move*xspeed;
-					next=false;
-				}
-				if((int)timeoccurred>=3)
-				{
-					xspeed = speedActual;
-					timeoccurred = toccurred;
-					velocityDecrease = false;
-					move=move*xspeed;
-					next = true;
-				}
-			}
 			if((int)timeoccurred%10 == 0 && timeoccurred!=0)
 			{
+				if(cubitos.Count>0){
+					foreach(GameObject cubo in cubitos){
+						cubo.GetComponent<movement>().speed=cubo.GetComponent<movement>().speed*xspeed;
+					}
+				}
 				xspeed += xspeed * 0.05f;
 				tempo -= tempo * 0.01f;
 			}
@@ -110,7 +88,7 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	public void SpawnCube(GameObject[] arrayCubos)
+	void SpawnCube(GameObject[] arrayCubos)
 	{
 		Quaternion spawnRotation = Quaternion.identity;
 		GameObject child = Instantiate(block, arrayCubos[Random.Range(0,3)].transform.position, spawnRotation) as GameObject;
@@ -124,6 +102,7 @@ public class GameController : MonoBehaviour {
 	void UpdateTimeLeft(){
 		timeLeft = Mathf.Round (timeLeft * 100f) / 100f;
 		timeLeftText.text = "" +(int) timeLeft;
+
 	}
 
 	public void removeCube(GameObject cubo){
