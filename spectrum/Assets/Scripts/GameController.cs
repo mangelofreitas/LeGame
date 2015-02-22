@@ -24,11 +24,13 @@ public class GameController : MonoBehaviour {
 	private bool restart = false;
 	public GameObject lost;
 	public GameObject pauseM;
+	public GameObject pauseB;
 	public Text text1;
 	public Text text2;
 	public Text text3;
 	public Text text4;
 	public Text text5;
+	public Text text7;
 	public Text finalscore;
 	public float timeInit;
 	public bool next = true;
@@ -115,6 +117,7 @@ public class GameController : MonoBehaviour {
 	{
 		prism.GetComponent<swipe>().enabled = false;
 		Time.timeScale = 0f;
+		pauseB.SetActive (false);
 		pauseM.SetActive (false);
 		lost.SetActive(true);
 		timeLeftText.enabled = false;
@@ -124,6 +127,7 @@ public class GameController : MonoBehaviour {
 		text3.enabled = false;
 		text4.enabled = false;
 		text5.enabled = false;
+		text7.enabled = false;
 		prism.GetComponent<Colider>().text7.enabled = false;
 		restart = true;
 	}
