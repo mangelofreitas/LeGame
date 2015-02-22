@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PauseButton : MonoBehaviour {
 
 	public GameObject pauseB;
+	public GameObject player;
 	public Text Counter123;
 	public Text text1;
 	public Text text2;
@@ -13,6 +14,7 @@ public class PauseButton : MonoBehaviour {
 	public Text text5;
 
 	public void pauseSystem(){
+		player.GetComponent<swipe>().enabled = false;
 		text1.enabled = false;
 		text2.enabled = false;
 		text3.enabled = false;
@@ -53,6 +55,7 @@ public class PauseButton : MonoBehaviour {
 		pauseB.SetActive(true);
 		Counter123.enabled = false;
 		Time.timeScale = 1f;
+		player.GetComponent<swipe>().enabled = true;
 	}
 
 	public void restartSystem(){

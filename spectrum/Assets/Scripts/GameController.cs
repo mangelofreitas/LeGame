@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
 	public float tempo;
 	private bool restart = false;
 	public GameObject lost;
+	public GameObject pauseM;
 	public Text text1;
 	public Text text2;
 	public Text text3;
@@ -112,7 +113,9 @@ public class GameController : MonoBehaviour {
 
 	public void gameOver()
 	{
+		prism.GetComponent<swipe>().enabled = false;
 		Time.timeScale = 0f;
+		pauseM.SetActive (false);
 		lost.SetActive(true);
 		timeLeftText.enabled = false;
 		finalscore.text = text4.text;
