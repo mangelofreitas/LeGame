@@ -56,6 +56,7 @@ public class GameController : MonoBehaviour {
 
 	void Update()
 	{	
+		print (xspeed);
 		UpdateTimeLeft ();
 		if (!prism.GetComponent<Colider> ().rainbowlerping) {
 			if (timeLeft <= 0.0f) {
@@ -87,7 +88,7 @@ public class GameController : MonoBehaviour {
 						cubo.GetComponent<movement>().speed=cubo.GetComponent<movement>().speed*xspeed;
 					}
 				}
-				if(xspeed<13)xspeed += xspeed * 0.05f;
+				if(xspeed<31)xspeed += xspeed * 0.03f;
 				tempo -= tempo * 0.01f;
 			}
 			SpawnCube(cubosPrincipal);

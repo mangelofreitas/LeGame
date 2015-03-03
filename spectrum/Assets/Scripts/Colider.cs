@@ -9,6 +9,7 @@ public class Colider : MonoBehaviour {
 	public ColorManagement colorManagement;
 	private bool lerping = false;
 	public bool rainbowlerping = false;
+	private float colorswitching = 20f;
 	private Color finalcolor;
 	private Color inicialcolor;
 	private int test=1;
@@ -16,7 +17,8 @@ public class Colider : MonoBehaviour {
 	private int contadorGreen=0;
 	private int contadorBlue=0;
 	private Color currentcolor;
-	private int [] multiplier = {1,2,4,6};
+	private int [] multiplier = 
+	{1,2,4,6};
 	private int posMulti = 0;
 	private int ncores;
 	public float timeLeftAux;
@@ -149,8 +151,9 @@ public class Colider : MonoBehaviour {
 			resetCounter(Color.green);
 		}
 		if (lerping) {
-			this.renderer.material.SetColor("_Color",Color.Lerp(inicialcolor,finalcolor,test/50f));
-			if(test == 50){
+			print ("teste");
+			this.renderer.material.SetColor("_Color",Color.Lerp(inicialcolor,finalcolor,test/colorswitching));
+			if(test == colorswitching){
 				test=1;
 				lerping = false;
 			}

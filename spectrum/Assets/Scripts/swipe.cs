@@ -112,7 +112,7 @@ public class swipe : MonoBehaviour {
 				
 			}
 
-			if (Input.GetKeyDown("d")) {
+			if (Input.GetKeyDown("d") | Input.GetKeyDown(KeyCode.RightArrow)) {
 				if(pos==2)
 				{
 					pos=0;
@@ -129,7 +129,7 @@ public class swipe : MonoBehaviour {
 					moving = true;
 				}
 			}
-			else if (Input.GetKeyDown("a")){
+			else if (Input.GetKeyDown("a") | Input.GetKeyDown(KeyCode.LeftArrow)){
 				if(pos==0)
 				{
 					pos=2;
