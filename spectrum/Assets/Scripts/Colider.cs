@@ -137,7 +137,7 @@ public class Colider : MonoBehaviour {
 				}
 			}
 		}
-		audio.Play ();
+		//audio.Play ();
 		gameController.removeCube (other.gameObject);
 		Destroy(other.gameObject);
 	}
@@ -151,7 +151,6 @@ public class Colider : MonoBehaviour {
 			resetCounter(Color.green);
 		}
 		if (lerping) {
-			print ("teste");
 			this.renderer.material.SetColor("_Color",Color.Lerp(inicialcolor,finalcolor,test/colorswitching));
 			if(test == colorswitching){
 				test=1;
@@ -261,7 +260,7 @@ public class Colider : MonoBehaviour {
 
 	void superSayainmode(){
 		timeLeftAux = gameController.timeLeft;
-		print (timeLeftAux);
+		//print (timeLeftAux);
 		inicialcolor = Color.white;
 		finalcolor = new Color (Random.value, Random.value, Random.value);
 		lerping = false;

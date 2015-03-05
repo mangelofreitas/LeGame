@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour {
 	public Text timeLeftText;
 	public float timeLeft;
 	private float timeoccurred = 0.0f;
-	public float xspeed;
+	private float xspeed;
 	public float tempo;
 	private bool restart = false;
 	public GameObject lost;
@@ -38,8 +38,10 @@ public class GameController : MonoBehaviour {
 	private float timeActual;
 	private float toccurred;
 	public Text highScoreText;
+    private float velocitytime = 10f;
 
 	void Start () {
+        xspeed = 8;
 		Time.timeScale = 1f;
 		StartCoroutine(SpawnWaves ());
 	}
@@ -56,7 +58,6 @@ public class GameController : MonoBehaviour {
 
 	void Update()
 	{	
-		print (xspeed);
 		UpdateTimeLeft ();
 		if (!prism.GetComponent<Colider> ().rainbowlerping) {
 			if (timeLeft <= 0.0f) {
@@ -78,19 +79,9 @@ public class GameController : MonoBehaviour {
 	IEnumerator SpawnWaves()
 	{
 		yield return new WaitForSeconds (startWait);
+        StartCoroutine(increaseVelocity());
 		while(true)
 		{
-
-			if((int)timeoccurred%10 == 0 && timeoccurred!=0)
-			{
-				if(cubitos.Count>0){
-					foreach(GameObject cubo in cubitos){
-						cubo.GetComponent<movement>().speed=cubo.GetComponent<movement>().speed*xspeed;
-					}
-				}
-				if(xspeed<31)xspeed += xspeed * 0.03f;
-				tempo -= tempo * 0.01f;
-			}
 			SpawnCube(cubosPrincipal);
 			SpawnCube(cubosLateralEsq);
 			SpawnCube(cubosLateralDir);
@@ -135,12 +126,12 @@ public class GameController : MonoBehaviour {
 		{
 			PlayerPrefs.SetInt("HighScore", _score);
 			highScoreText.text = "New High Score: "+_score;
-			Debug.Log(_score);
+			//Debug.Log(_score);
 		}
 		else
 		{
 			highScoreText.text = "High Score: "+_highscore;
-			Debug.Log(_highscore);
+			//Debug.Log(_highscore);
 		}
 
 		prism.GetComponent<swipe>().enabled = false;
@@ -161,5 +152,20 @@ public class GameController : MonoBehaviour {
 		PlayerPrefs.Save ();
 	}
 
-
+    IEnumerator increaseVelocity()
+    {
+        while (true)
+        {
+            if (cubitos.Count > 0)
+            {
+                foreach (GameObject cubo in cubitos)
+                {
+                    cubo.GetComponent<movement>().speed = cubo.GetComponent<movement>().speed * xspeed;
+                }
+            }
+            if (xspeed < 31) xspeed += xspeed * 0.02f;
+            tempo -= tempo * 0.01f;
+            yield return new WaitForSeconds(velocitytime);
+        }
+    }
 }
