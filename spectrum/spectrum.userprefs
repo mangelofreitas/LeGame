@@ -1,15 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Colider.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\spectrum_unity5\Assets\Facebook\Scripts\AndroidFacebook.cs">
     <Files>
-      <File FileName="Assets\Scripts\swipe.cs" Line="115" Column="61" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="67" Column="5" />
-      <File FileName="Assets\Scripts\Colider.cs" Line="89" Column="41" />
-      <File FileName="Assets\Scripts\PauseButton.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Play.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\movement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ColorManagement.cs" Line="1" Column="1" />
-      <File FileName="Assets\HighScore.cs" Line="1" Column="1" />
+      <File FileName="..\spectrum_unity5\Assets\Facebook\Scripts\AndroidFacebook.cs" Line="84" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
