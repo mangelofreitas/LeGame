@@ -41,9 +41,10 @@ public class GameController : MonoBehaviour {
     private float velocitytime = 9f;
     public GameObject circlePos;
     public GameObject circleToSpawn;
+    public bool isMenu;
 
 	void Start () {
-        if(PlayerPrefs.GetInt("BackgroundMusic") == 0)
+        if(PlayerPrefs.GetInt("BackgroundMusic") == 0 && isMenu == false)
         {
             GetComponent<AudioSource>().Play();
         }
@@ -54,23 +55,25 @@ public class GameController : MonoBehaviour {
 
 	public void pauseMusic()
 	{
-        if(PlayerPrefs.GetInt("BackgroundMusic") == 0)
+        if(PlayerPrefs.GetInt("BackgroundMusic") == 0 && isMenu == false)
         {
             GetComponent<AudioSource>().Pause();
         }
-	}
+    }
 
 	public void continueMusic()
 	{
-        if (PlayerPrefs.GetInt("BackgroundMusic") == 0)
+        if (PlayerPrefs.GetInt("BackgroundMusic") == 0 && isMenu == false)
         {
             GetComponent<AudioSource>().Play();
         }
-	}
+    }
 
 	void Update()
-	{	
-		UpdateTimeLeft ();
+	{	if(isMenu == false)
+        {
+            UpdateTimeLeft();
+        }
 		if (!prism.GetComponent<Colider> ().rainbowlerping) {
 			if (timeLeft <= 0.0f) {
 				gameOver ();
@@ -82,10 +85,6 @@ public class GameController : MonoBehaviour {
 		else {
 			timeLeft = prism.GetComponent<Colider>().timeLeftAux;
 		}
-		if(Input.GetKey(KeyCode.R))
-		{
-			Application.LoadLevel(Application.loadedLevel);
-		}
 	}
 
 	IEnumerator SpawnWaves()
@@ -95,7 +94,7 @@ public class GameController : MonoBehaviour {
 		while(true)
 		{
             int randomPlus = Random.Range(0, 99);
-            if(randomPlus > 65)
+            if(randomPlus > 75)
             {
                 if (centralBlock.transform.rotation.eulerAngles.z==0)
                 {
@@ -152,6 +151,7 @@ public class GameController : MonoBehaviour {
             movimento = child.GetComponent<movement>();
             movimento.color = cores[3];
             movimento.speed = movimento.speed * xspeed;
+            movimento.isBarrier = true;
             child.GetComponent<Renderer>().material.SetColor("_Color", movimento.color);
             cubitos.Add(child);
         }
@@ -165,6 +165,7 @@ public class GameController : MonoBehaviour {
 		movimento = child.GetComponent<movement>();
 		movimento.color = cores [Random.Range (0, 4)];
 		movimento.speed = movimento.speed * xspeed;
+        movimento.isBarrier = false;
 		child.GetComponent<Renderer>().material.SetColor("_Color",movimento.color);
 		cubitos.Add(child);
 	}
@@ -186,38 +187,45 @@ public class GameController : MonoBehaviour {
 
 	public void gameOver()
 	{
-		int _score = PlayerPrefs.GetInt("CurrentScore");       
-		int _highscore = PlayerPrefs.GetInt("HighScore");
+        if(isMenu == false)
+        {
+            int _score = PlayerPrefs.GetInt("CurrentScore");
+            int _highscore = PlayerPrefs.GetInt("HighScore");
 
-		_score = transform.GetComponent<ColorManagement> ().score;
-		if (_score > _highscore)
-		{
-			PlayerPrefs.SetInt("HighScore", _score);
-			highScoreText.text = "New High Score: "+_score;
-			//Debug.Log(_score);
-		}
-		else
-		{
-			highScoreText.text = "High Score: "+_highscore;
-			//Debug.Log(_highscore);
-		}
+            _score = transform.GetComponent<ColorManagement>().score;
+            if (_score > _highscore)
+            {
+                PlayerPrefs.SetInt("HighScore", _score);
+                highScoreText.text = "New High Score: " + _score;
+                //Debug.Log(_score);
+            }
+            else
+            {
+                highScoreText.text = "High Score: " + _highscore;
+                //Debug.Log(_highscore);
+            }
 
-		prism.GetComponent<swipe>().enabled = false;
-		Time.timeScale = 0f;
-		pauseB.SetActive (false);
-		pauseM.SetActive (false);
-		lost.SetActive(true);
-		timeLeftText.enabled = false;
-		finalscore.text = text4.text;
-		text1.enabled = false;
-		text2.enabled = false;
-		text3.enabled = false;
-		text4.enabled = false;
-		text5.enabled = false;
-		text7.enabled = false;
-		prism.GetComponent<Colider>().text7.enabled = false;
-		restart = true;
-		PlayerPrefs.Save ();
+            prism.GetComponent<swipe>().enabled = false;
+            Time.timeScale = 0f;
+            pauseB.SetActive(false);
+            pauseM.SetActive(false);
+            lost.SetActive(true);
+            timeLeftText.enabled = false;
+            finalscore.text = text4.text;
+            text1.enabled = false;
+            text2.enabled = false;
+            text3.enabled = false;
+            text4.enabled = false;
+            text5.enabled = false;
+            text7.enabled = false;
+            prism.GetComponent<Colider>().text7.enabled = false;
+            restart = true;
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
 	}
 
     IEnumerator increaseVelocity()

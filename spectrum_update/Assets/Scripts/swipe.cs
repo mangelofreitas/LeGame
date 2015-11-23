@@ -19,15 +19,70 @@ public class swipe : MonoBehaviour {
 	private GameObject aux;
 	private Quaternion rotationdesired;
     private int SwipeID = -1;
+    private int SwipeSide;
+    public bool isMenu;
 
 	void Start()
 	{
 		aux =  GameObject.FindWithTag("Cube");
 		rotateCube = aux.GetComponent<Rotation>();
+        if(isMenu)
+        {
+            StartCoroutine(getSide());
+        }
 	}
 
+    IEnumerator getSide()
+    {
+        while(true)
+        {
+            SwipeSide = Random.Range(0, 2);
+            yield return new WaitForSeconds(1);
+        }
+    }
+
 	void Update () {
-		//print (this.renderer.material.color);
+        if(isMenu)
+        {
+            if (SwipeSide == 0)
+            {
+                if (pos == 2)
+                {
+                    pos = 0;
+                    ydestination = new Vector3(-7f, 15f, -100.0f);
+                    xdestination = positions[pos];
+                    rotateCube.moveLeft = true;
+                    jumping = true;
+                }
+                else
+                {
+                    pos++;
+                    xdestination = positions[pos];
+                    rotationdesired = Quaternion.Euler(0f, 0f, 240f);
+                    moving = true;
+                }
+            }
+            else if(SwipeSide == 1)
+            {
+                if (pos == 0)
+                {
+                    pos = 2;
+                    ydestination = new Vector3(7f, 15f, -100f);
+                    xdestination = positions[pos];
+                    rotateCube.moveRight = true;
+                    jumping = true;
+                }
+                else
+                {
+                    pos--;
+                    xdestination = positions[pos];
+                    rotationdesired = Quaternion.Euler(0f, 0f, 120f);
+                    moving = true;
+                }
+            }
+            SwipeSide = -1;
+            
+        }
 		if (moving) {
 			if(transform.position == xdestination){
 				transform.rotation = Quaternion.Euler(0,0,0);
@@ -58,7 +113,7 @@ public class swipe : MonoBehaviour {
 			}
 		}
 		else{
-            if(PlayerPrefs.GetInt("Mode") == 0)
+            if(PlayerPrefs.GetInt("Mode") == 0 && isMenu == false)
             {
                 foreach (Touch touch in Input.touches)
                 {
@@ -124,7 +179,7 @@ public class swipe : MonoBehaviour {
                     }
                 }
             }
-            else if(PlayerPrefs.GetInt("Mode") == 1)
+            else if(PlayerPrefs.GetInt("Mode") == 1 && isMenu == false)
             {
                 foreach (Touch touch in Input.touches)
                 {
@@ -188,7 +243,7 @@ public class swipe : MonoBehaviour {
                 }
             }
 
-            if (Input.GetKeyDown("d") | Input.GetKeyDown(KeyCode.RightArrow)) {
+            if ((Input.GetKeyDown("d") | Input.GetKeyDown(KeyCode.RightArrow)) && isMenu == false) {
 				if(pos==2)
 				{
 					pos=0;
@@ -205,7 +260,7 @@ public class swipe : MonoBehaviour {
 					moving = true;
 				}
 			}
-			else if (Input.GetKeyDown("a") | Input.GetKeyDown(KeyCode.LeftArrow)){
+			else if ((Input.GetKeyDown("a") | Input.GetKeyDown(KeyCode.LeftArrow)) && isMenu == false){
 				if(pos==0)
 				{
 					pos=2;
